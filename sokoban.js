@@ -1,4 +1,4 @@
-
+// production map //
 const map = [
     "  WWWWW ",
     "WWW   W ",
@@ -11,17 +11,37 @@ const map = [
     "WWWWWWWW"
 ];
 
+// test map //
+// const map = [
+//     "  WWWWW ",
+//     "WWW   W ",
+//     "WOSB  W ",
+//     "WWWB OW ",
+//     "WOWW  W ",
+//     "W W O WW",
+//     "W  X  OW",
+//     "W   O  W",
+//     "WWWWWWWW"
+// ];
+
 
 var grid = document.getElementById("sokobanGrid");
 var mapRow;
 var cellClass;
 var horizontalMove = 0;
 var verticalMove = 0;
-var boxCount = 0;
+
 let playerPosX;
 let playerPosY;
-let playertopPadding;
+let playerTopPadding;
 let playerLeftPadding;
+
+var boxCount = 0;
+let newBox;
+let boxPosx;
+let boxPosY;
+let boxTopPadding;
+let boxLeftPadding;
 
 document.addEventListener("keydown", movePlayer);
 
@@ -43,7 +63,25 @@ function drawMap() {
                     break;
 
                 case "B":
-                    cellClass = "box";
+                    // cellClass = "box";
+                    // break;
+
+                    // creating boxes with absolute positioning (like the player) //
+                    boxCount = boxCount + 1;
+                    cellClass = "empty";
+                    boxPosX = i;
+                    boxPosY = j;
+                    boxTopPadding = (boxPosX*50);
+                    boxLeftPadding = (boxPosY*50);
+                    newBox = document.createElement("div");
+                    newBox.setAttribute("id",boxCount);
+                    newBox.setAttribute("class","box");
+                    newBox.setAttribute("style","top:" + boxTopPadding + "px; left:" + boxLeftPadding + "px");
+              
+                    
+                    sokobanGrid.appendChild(newBox);
+
+                    console.log("box"+boxCount+" top: " + boxTopPadding + "/" + "left: " + boxLeftPadding);
                     break;
 
                 case "O":
@@ -62,8 +100,8 @@ function drawMap() {
                     playerLeftPadding = (playerPosY*50);
                     document.getElementById("player").style.top = (playerTopPadding)+"px";
                     document.getElementById("player").style.left = (playerLeftPadding)+ "px";
-                    console.log("top: " + playerTopPadding);
-                    console.log("left: " + playerLeftPadding);
+                    console.log("player top: " + playerTopPadding);
+                    console.log("player left: " + playerLeftPadding);
                     break;
             }
             mapColumn.setAttribute("class", cellClass);

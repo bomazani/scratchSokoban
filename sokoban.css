@@ -24,6 +24,7 @@
 }
 
 .box{
+    position: absolute;
     height: 48px;
     width: 48px;
     background-color: lightslategray;
