@@ -1,7 +1,7 @@
+
 #sokobanGrid{
-    flex: absolute;
-    height: gridHeight;
-    width: gridWidth;  
+    position: relative;
+    
 }
 
 .mapRow{
@@ -53,7 +53,7 @@
 }
 
 #player{
-    flex: absolute;
+    position: absolute;
     height: 48px;
     width: 48px;
     background-color: Orange;

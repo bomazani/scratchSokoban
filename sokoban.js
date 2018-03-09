@@ -1,3 +1,4 @@
+
 const map = [
     "  WWWWW ",
     "WWW   W ",
@@ -16,22 +17,13 @@ var mapRow;
 var cellClass;
 var horizontalMove = 0;
 var verticalMove = 0;
-let i;
-let j;
+var boxCount = 0;
+let playerPosX;
+let playerPosY;
 let playertopPadding;
 let playerLeftPadding;
-var moveDirection = (((i) + horizontalMove), ((j) + verticalMove));
-// var gridHeight = (map.length*20) + "px";
-// var gridWidth = ((map[0].length)*20) + "px";
-// console.log("gridHeight:" + gridHeight + " : gridWidth: " + gridWidth);
-
-// grid.style.height=gridHeight;
-// grid.style.width=gridWidth;
-
-
 
 document.addEventListener("keydown", movePlayer);
-
 
 drawMap();
 function drawMap() {
@@ -45,64 +37,72 @@ function drawMap() {
                 default:
                     cellClass = "empty";
                     break;
+
                 case "W":
                     cellClass = "wall";
                     break;
+
                 case "B":
                     cellClass = "box";
                     break;
+
                 case "O":
                     cellClass = "openTarget";
                     break;
-                // case " " || "S":
-                //     cellClass = "empty";
-                //     break;
+
                 case "X":
                     cellClass = "fullTarget";
                     break;
 
                 case "S":
                     cellClass = "empty";
-                    console.log("i= " + i);
-                    playerTopPadding = (i*20);
-                    playerLeftPadding = (j*20);
-                    document.getElementById("player").style.top = "(playerTopPadding)px";
-                    document.getElementById("player").style.left = "(playerLeftPadding)" + "px";
+                    playerPosX = i;
+                    playerPosY = j;
+                    playerTopPadding = (playerPosX*50);
+                    playerLeftPadding = (playerPosY*50);
+                    document.getElementById("player").style.top = (playerTopPadding)+"px";
+                    document.getElementById("player").style.left = (playerLeftPadding)+ "px";
                     console.log("top: " + playerTopPadding);
                     console.log("left: " + playerLeftPadding);
                     break;
-
             }
             mapColumn.setAttribute("class", cellClass);
             mapRow.appendChild(mapColumn);
         }
-
         grid.appendChild(mapRow);
     }
 }
 
 function movePlayer(event) {
-    direction = "event.key";
-    return direction;
-    horizontalMove = 0;
+    direction = event.key;
     verticalMove = 0;
+    horizontalMove = 0
 
     switch (event.key) {
-        case "arrowUp":
-            verticalMove = verticalMove - 1;
+        case "ArrowUp":
+            verticalMove = verticalMove-1;
             break;
 
-        case "arrowDown":
-            verticalMove = verticalMove + 1;
+        case "ArrowDown":
+            verticalMove = verticalMove+1;
             break;
 
-        case "arrowLeft":
-            horizontalMove = horizontalMove - 1;
+        case "ArrowLeft":
+            horizontalMove = horizontalMove-1;
             break;
 
-        case "arrowRight":
-            horizontalMove = horizontalMove + 1;
+        case "ArrowRight":
+            horizontalMove = horizontalMove+1;
             break;
     }
+    // console.log(horizontalMove + ":" + verticalMove);
+    moveDirection = ((playerPosX + horizontalMove),(playerPosY + verticalMove));
+
+    playerTopPadding = playerTopPadding + (verticalMove*50);
+    playerLeftPadding = playerLeftPadding + (horizontalMove*50);
+    // console.log(playerLeftPadding + ":" + playerTopPadding);
+
+    document.getElementById("player").style.top = (playerTopPadding)+"px";
+    document.getElementById("player").style.left = (playerLeftPadding)+ "px";
 }
 
