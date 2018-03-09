@@ -18,7 +18,16 @@ var horizontalMove = 0;
 var verticalMove = 0;
 let i;
 let j;
+let playertopPadding;
+let playerLeftPadding;
 var moveDirection = (((i) + horizontalMove), ((j) + verticalMove));
+// var gridHeight = (map.length*20) + "px";
+// var gridWidth = ((map[0].length)*20) + "px";
+// console.log("gridHeight:" + gridHeight + " : gridWidth: " + gridWidth);
+
+// grid.style.height=gridHeight;
+// grid.style.width=gridWidth;
+
 
 
 document.addEventListener("keydown", movePlayer);
@@ -52,12 +61,17 @@ function drawMap() {
                     cellClass = "fullTarget";
                     break;
 
-                // case "S":
-                //     cellClass = "empty";
-                //     player = document.createElement("div");
-                //     player.setAttribute("class","player") ;
-                //     mapColumn.appendChild(player); 
-                //     break;
+                case "S":
+                    cellClass = "empty";
+                    console.log("i= " + i);
+                    playerTopPadding = (i*20);
+                    playerLeftPadding = (j*20);
+                    document.getElementById("player").style.top = "(playerTopPadding)px";
+                    document.getElementById("player").style.left = "(playerLeftPadding)" + "px";
+                    console.log("top: " + playerTopPadding);
+                    console.log("left: " + playerLeftPadding);
+                    break;
+
             }
             mapColumn.setAttribute("class", cellClass);
             mapRow.appendChild(mapColumn);

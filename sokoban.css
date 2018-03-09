@@ -1,5 +1,7 @@
 #sokobanGrid{
-    
+    flex: absolute;
+    height: gridHeight;
+    width: gridWidth;  
 }
 
 .mapRow{
