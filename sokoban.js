@@ -1,5 +1,5 @@
 // Initial start-up & reset map //
-const map = [
+const originalMap = [
     "  WWWWW ",
     "WWW   W ",
     "WOS B W ",
@@ -10,6 +10,12 @@ const map = [
     "W   O  W",
     "WWWWWWWW"
 ];
+
+const map=[];
+
+for(let i=0; i<originalMap.length; i++){
+    map.push(originalMap[i].split(""));
+}
 
 
 // test map //
@@ -70,16 +76,16 @@ function drawMap() {
                     // break;
 
                     // creating boxes with absolute positioning (like the player) //
-                    boxCount = boxCount + 1;
+                   
                     cellClass = "empty";
                     boxPositionX = i;
                     boxPositionY = j;
-                    boxTopPadding = (boxPositionX * 50);
-                    boxLeftPadding = (boxPositionY * 50);
-                    newBox = document.createElement("div");
-                    newBox.setAttribute("id", boxCount);
-                    newBox.setAttribute("class", "box");
-                    newBox.setAttribute("style", "top:" + boxTopPadding + "px; left:" + boxLeftPadding + "px");
+                    boxTopPadding = ( boxPositionX * 50 );
+                    boxLeftPadding = ( boxPositionY * 50 );
+                    newBox = document.createElement( "div" );
+                    newBox.setAttribute( "id", "" + boxPositionY + boxPositionX);
+                    newBox.setAttribute( "class", "box" );
+                    newBox.setAttribute( "style", "top:" + boxTopPadding + "px; left:" + boxLeftPadding + "px" );
 
 
                     sokobanGrid.appendChild(newBox);
@@ -168,56 +174,85 @@ function movePlayer(event) {
     console.log("newPosX: " + newPosX + " / newPosY: " + newPosY);
     console.log("nextPosX: " + nextPosX + " / nextPosY: " + nextPosY);
     console.log(map[currentMapPosX][currentMapPosY]);
-    console.log(map[newMapX][newMapY]);
-    console.log(map[nextMapX][nextMapY]);
+    // console.log(map[newMapX][newMapY]);
+    // console.log(map[nextMapX][nextMapY]);
 
-    
-    
-    if (map[newMapX][newMapY] === "W"){
+
+
+    if (map[newMapX][newMapY] === "W") {
         console.log("Wall preventing move.");
         playerPosX = previousPosX;
         playerPosY = previousPosY;
         console.log("reset playerPosX/Y to: " + playerPosX + "/" + playerPosY);
         console.log("*************************");
         return;
-    }else if(map[newMapX][newMapY] === "B" && map[nextMapX][nextMapY] === "B") {
-            console.log("Two cratess preventing move.");
-            playerPosX = previousPosX;
-            playerPosY = previousPosY;
-            console.log("reset playerPosX/Y to: " + playerPosX + "/" + playerPosY);
-            console.log("*************************");
-            return;
-    }else if (map[newMapX][newMapY] === "B" && map[nextMapX][nextMapY] === "W"){
-            console.log("Crate & wall preventing move.");
-            playerPosX = previousPosX;
-            playerPosY = previousPosY;
-            console.log("reset playerPosX/Y to: " + playerPosX + "/" + playerPosY);
-            console.log("*************************");
-            return;
-    // move the box to the next available space & move 'B' to the corresponding space on map // 
-    }else if (map[newMapX][newMapY] === "B" && map[nextMapX][nextMapY] === " "){
+
+    } else if (map[newMapX][newMapY] === "B" && map[nextMapX][nextMapY] === "B") {
+        console.log("Two cratess preventing move.");
+        playerPosX = previousPosX;
+        playerPosY = previousPosY;
+        console.log("reset playerPosX/Y to: " + playerPosX + "/" + playerPosY);
+        console.log("*************************");
+        return;
+
+    } else if (map[newMapX][newMapY] === "X" && map[nextMapX][nextMapY] === "B") {
+        console.log("Two cratess preventing move.");
+        playerPosX = previousPosX;
+        playerPosY = previousPosY;
+        console.log("reset playerPosX/Y to: " + playerPosX + "/" + playerPosY);
+        console.log("*************************");
+        return;
+
+    } else if (map[newMapX][newMapY] === "B" && map[nextMapX][nextMapY] === "W") {
+        console.log("Crate & wall preventing move.");
+        playerPosX = previousPosX;
+        playerPosY = previousPosY;
+        console.log("reset playerPosX/Y to: " + playerPosX + "/" + playerPosY);
+        console.log("*************************");
+        return;
+
+        // *** need to move the box to the next available space & move 'B' to the corresponding space on map // 
+    } else if (map[newMapX][newMapY] === "B" && map[nextMapX][nextMapY] === " ") {
+        let boxToMoveX = newMapX.toString();
+        console.log("boxToMoveX: " + boxToMoveX);
+        
+
+        let boxToMoveY = newMapY.toString();
+        console.log("boxToMoveY: " + boxToMoveY);
+        let boxToMoveId = boxToMoveY + boxToMoveX;
+        console.log("boxToMoveId = " + boxToMoveId);
+        let test = document.getElementById(boxToMoveId);
+        console.log("test= " + test);
+
+        let crateTopPadding = (boxToMoveX * 50) + (verticalMove * 50);
+        let crateLeftPadding = (boxToMoveY * 50) + (horizontalMove * 50);
+        document.getElementById(boxToMoveId).style.top = (crateTopPadding) + "px";
+        document.getElementById(boxToMoveId).style.left = (crateLeftPadding) + "px";
+        map[boxToMoveX,boxToMoveY] = " ";
+        map[boxToMoveX + verticalMove , boxToMoveY + horizontalMove] = "B";
+
+
+        
+        
+        
         playerTopPadding = playerTopPadding + (verticalMove * 50);
         playerLeftPadding = playerLeftPadding + (horizontalMove * 50);
         document.getElementById("player").style.top = (playerTopPadding) + "px";
         document.getElementById("player").style.left = (playerLeftPadding) + "px";
-        let crateToMove = map[newMapX][newMapY];
-        console.log(crateToMove.id);
-    //     // *** needs work *** //
-    //     playerTopPadding = playerTopPadding + (verticalMove * 50);
-    //     playerLeftPadding = playerLeftPadding + (horizontalMove * 50);
-    //     document.getElementById("player").style.top = (playerTopPadding) + "px";
-    //     document.getElementById("player").style.left = (playerLeftPadding) + "px";
+        
+        
+        
 
 
-    // *** need to place box onto target, change class, remove 'B' & change 'O' to 'X' on map //
-    // }else if (map[newMapX][newMapY] === "B" && map[nextMapX][nextMapY] === "O"){
+        // *** need to place box onto target, change class, remove 'B' & change 'O' to 'X' on map //
+        // }else if (map[newMapX][newMapY] === "B" && map[nextMapX][nextMapY] === "O"){
 
 
-    // *** need to move box off of target, change class, add 'B' & change 'X' to 'O' on map //
-    // }else if (map[newMapX][newMapY] === "B" && map[nextMapX][nextMapY] === "O"){
+        // *** need to move box off of target, change class, add 'B' & change 'X' to 'O' on map //
+        // }else if (map[newMapX][newMapY] === "B" && map[nextMapX][nextMapY] === "O"){
 
 
-    }else{
+    } else {
         playerTopPadding = playerTopPadding + (verticalMove * 50);
         playerLeftPadding = playerLeftPadding + (horizontalMove * 50);
         document.getElementById("player").style.top = (playerTopPadding) + "px";
@@ -225,9 +260,19 @@ function movePlayer(event) {
 
     }
 
-    // count the number of 'X' (occupied targets) if number of 'X' === boxCount, declare winner //
-}       
- 
+    // *** need to declare winner //
+}
+
+
+
+
+
+
+
+
+
+
+
 
         // console.log("playerLeftPadding: " + playerLeftPadding + " / playerTopPadding: " + playerTopPadding);
         // console.log("horizontalMove: " + horizontalMove + " / verticalMove:" + verticalMove);
