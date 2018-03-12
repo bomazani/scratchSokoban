@@ -1,8 +1,8 @@
-// production map //
+// Initial start-up & reset map //
 const map = [
     "  WWWWW ",
     "WWW   W ",
-    "WOSB  W ",
+    "WOS B W ",
     "WWW BOW ",
     "WOWWB W ",
     "W W O WW",
@@ -10,6 +10,7 @@ const map = [
     "W   O  W",
     "WWWWWWWW"
 ];
+
 
 // test map //
 // const map = [
@@ -147,8 +148,8 @@ function movePlayer(event) {
             break;
     }
     // console.log(horizontalMove + ":" + verticalMove);
-    let previousPosX=playerPosX;
-    let previousPosY=playerPosY;
+    let previousPosX = playerPosX;
+    let previousPosY = playerPosY;
     let newPosX = (playerPosX + horizontalMove);
     let newPosY = (playerPosY + verticalMove);
     let nextPosX = (newPosX + horizontalMove);
@@ -168,62 +169,73 @@ function movePlayer(event) {
     console.log("nextPosX: " + nextPosX + " / nextPosY: " + nextPosY);
     console.log(map[currentMapPosX][currentMapPosY]);
     console.log(map[newMapX][newMapY]);
-    console.log(map[nextMapX][ nextMapY]);
+    console.log(map[nextMapX][nextMapY]);
 
-    if (map[newMapX][newMapY]==="W"){
+    
+    
+    if (map[newMapX][newMapY] === "W"){
         console.log("Wall preventing move.");
         playerPosX = previousPosX;
         playerPosY = previousPosY;
         console.log("reset playerPosX/Y to: " + playerPosX + "/" + playerPosY);
         console.log("*************************");
-        return; 
-    }else if(map[newMapX][newMapY]==="B" && map[nextMapX][nextMapY]==="B"){
-                console.log("Two crates preventing move.");
-                playerPosX = previousPosX;
-                playerPosY = previousPosY;
-                console.log("reset playerPosX/Y to: " + playerPosX + "/" + playerPosY);
-                console.log("*************************");
-                return; 
-          
+        return;
+    }else if(map[newMapX][newMapY] === "B" && map[nextMapX][nextMapY] === "B") {
+            console.log("Two cratess preventing move.");
+            playerPosX = previousPosX;
+            playerPosY = previousPosY;
+            console.log("reset playerPosX/Y to: " + playerPosX + "/" + playerPosY);
+            console.log("*************************");
+            return;
+    }else if (map[newMapX][newMapY] === "B" && map[nextMapX][nextMapY] === "W"){
+            console.log("Crate & wall preventing move.");
+            playerPosX = previousPosX;
+            playerPosY = previousPosY;
+            console.log("reset playerPosX/Y to: " + playerPosX + "/" + playerPosY);
+            console.log("*************************");
+            return;
+    // move the box to the next available space & move 'B' to the corresponding space on map // 
+    }else if (map[newMapX][newMapY] === "B" && map[nextMapX][nextMapY] === " "){
+        playerTopPadding = playerTopPadding + (verticalMove * 50);
+        playerLeftPadding = playerLeftPadding + (horizontalMove * 50);
+        document.getElementById("player").style.top = (playerTopPadding) + "px";
+        document.getElementById("player").style.left = (playerLeftPadding) + "px";
+        let crateToMove = map[newMapX][newMapY];
+        console.log(crateToMove.id);
+    //     // *** needs work *** //
+    //     playerTopPadding = playerTopPadding + (verticalMove * 50);
+    //     playerLeftPadding = playerLeftPadding + (horizontalMove * 50);
+    //     document.getElementById("player").style.top = (playerTopPadding) + "px";
+    //     document.getElementById("player").style.left = (playerLeftPadding) + "px";
+
+
+    // *** need to place box onto target, change class, remove 'B' & change 'O' to 'X' on map //
+    // }else if (map[newMapX][newMapY] === "B" && map[nextMapX][nextMapY] === "O"){
+
+
+    // *** need to move box off of target, change class, add 'B' & change 'X' to 'O' on map //
+    // }else if (map[newMapX][newMapY] === "B" && map[nextMapX][nextMapY] === "O"){
+
+
     }else{
         playerTopPadding = playerTopPadding + (verticalMove * 50);
         playerLeftPadding = playerLeftPadding + (horizontalMove * 50);
         document.getElementById("player").style.top = (playerTopPadding) + "px";
         document.getElementById("player").style.left = (playerLeftPadding) + "px";
-    }
-    // if (map[newMapX][newMapY] === "W") {
-    //     console.log("Wall preventing move.");
-    //     playerPosX = previousPosX;
-    //     playerPosY = previousPosY;
-    //     return;
-    
-    // } else if (map[newMapX][newMapY] === "B") {
-    //     if (map[nextMapX][nextMapY] === "B") {
-    //         console.log("Second box is preventing move.");
-    //         playerPosX = previousPosX;
-    //         playerPosY = previousPosY;
-    //         return;
-    //     } else if (map[nextMapX][nextMapY] === "Y") {
-            // console.log("Wall (on other side of crate) is preventing move.");
-            // playerPosX = previousPosX;
-            // playerPosY = previousPosY;
-    //         return;
-    //     } else {
-    //         playerTopPadding = playerTopPadding + (verticalMove * 50);
-    //         playerLeftPadding = playerLeftPadding + (horizontalMove * 50);
-    //         document.getElementById("player").style.top = (playerTopPadding) + "px";
-    //         document.getElementById("player").style.left = (playerLeftPadding) + "px";
-    //     }
-    // }
 
-console.log("playerLeftPadding: " + playerLeftPadding + " / playerTopPadding: " + playerTopPadding);
-console.log("horizontalMove: " + horizontalMove + " / verticalMove:" + verticalMove);
-console.log("player left: " + playerPosX + " / player down: " + playerPosY);
-console.log("*******************************")
+    }
+
+    // count the number of 'X' (occupied targets) if number of 'X' === boxCount, declare winner //
+}       
+ 
+
+        // console.log("playerLeftPadding: " + playerLeftPadding + " / playerTopPadding: " + playerTopPadding);
+        // console.log("horizontalMove: " + horizontalMove + " / verticalMove:" + verticalMove);
+        // console.log("player left: " + playerPosX + " / player down: " + playerPosY);
+        // console.log("*******************************");
 
 // playerTopPadding = playerTopPadding + (verticalMove * 50);
 // playerLeftPadding = playerLeftPadding + (horizontalMove * 50);
 // document.getElementById("player").style.top = (playerTopPadding) + "px";
 // document.getElementById("player").style.left = (playerLeftPadding) + "px";
-}
 
