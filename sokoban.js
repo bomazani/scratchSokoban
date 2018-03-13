@@ -135,7 +135,6 @@ function movePlayer(event) {
     // console.log("startingCurrentPlayerPosX = " + currentPlayerPosX);
     // console.log("startingCurrentPlayerPosY = " + currentPlayerPosY);
 
-
     switch (event.key) {
         case "ArrowUp":
             verticalMove = verticalMove - 1;
@@ -215,26 +214,22 @@ function movePlayer(event) {
     } else if (map[newMapX][newMapY] === "B" && map[nextMapX][nextMapY] === " ") {
         let boxToMoveX = newMapX.toString();
         console.log("boxToMoveX: " + boxToMoveX);
-        
-
         let boxToMoveY = newMapY.toString();
         console.log("boxToMoveY: " + boxToMoveY);
         let boxToMoveId = boxToMoveY + boxToMoveX;
         console.log("boxToMoveId = " + boxToMoveId);
-        let test = document.getElementById(boxToMoveId);
-        console.log("test= " + test);
+
 
         let crateTopPadding = (boxToMoveX * 50) + (verticalMove * 50);
         let crateLeftPadding = (boxToMoveY * 50) + (horizontalMove * 50);
         document.getElementById(boxToMoveId).style.top = (crateTopPadding) + "px";
         document.getElementById(boxToMoveId).style.left = (crateLeftPadding) + "px";
-        map[boxToMoveX,boxToMoveY] = " ";
+    
+        map[newMapX][newMapY] = " ";
+        map[nextMapX][nextMapY] = "B";
         map[boxToMoveX + verticalMove , boxToMoveY + horizontalMove] = "B";
 
 
-        
-        
-        
         playerTopPadding = playerTopPadding + (verticalMove * 50);
         playerLeftPadding = playerLeftPadding + (horizontalMove * 50);
         document.getElementById("player").style.top = (playerTopPadding) + "px";
@@ -244,11 +239,11 @@ function movePlayer(event) {
         
 
 
-        // *** need to place box onto target, change class, remove 'B' & change 'O' to 'X' on map //
+    // *** need to place box onto target, change class, remove 'B' & change 'O' to 'X' on map //
         // }else if (map[newMapX][newMapY] === "B" && map[nextMapX][nextMapY] === "O"){
 
 
-        // *** need to move box off of target, change class, add 'B' & change 'X' to 'O' on map //
+    // *** need to move box off of target, change class, add 'B' & change 'X' to 'O' on map //
         // }else if (map[newMapX][newMapY] === "B" && map[nextMapX][nextMapY] === "O"){
 
 
